@@ -1,0 +1,24 @@
+# PHPは最新版のイメージを使用。latestを任意のバージョンに置き換えてもOK
+FROM php:latest
+
+# 諸々最新版に更新
+RUN apt -y update && apt -y upgrade
+
+# Composerをインストール
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+# NodeJSをインストール
+RUN apt -y install nodejs
+RUN apt -y install npm
+RUN npm install n -g
+RUN n stable
+RUN apt -y purge nodejs npm
+
+# Composerで使用する諸々を追加
+RUN apt -y install zip unzip
+
+# Docker上で作成したファイルを編集できるように。IDは任意に変更してOK
+RUN groupadd -g 1000 creator
+RUN adduser --uid 1000 --gid 1000 creator
+USER creator

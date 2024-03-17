@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: ./images
+      dockerfile: php
+    ports:
+      - 8000:8000
+      - 5173:5173
+    tty: true
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
